@@ -1,0 +1,29 @@
+Đề tài: Quản lý bãi đỗ xe
+
+1.	Mô tả chức năng:
+-	Gửi xe: lấy thông tin khách và biển số xe. Lưu loại xe, thời gian bắt đầu gửi xe và nhân viên thực hiện check in.
+-	Lấy xe: 
++ Kiểm tra thông tin và biển số.
++ nếu có thông tin => cập nhật thời gian nhận xe, thành tiền và lưu nhân viên thực hiện checkout.
++ Hiện thị hóa đơn.
++ Xóa thông tin gửi xe khỏi bãi đỗ.
+-	Tra cứu:
+? Nhân viên nào thao tác.
+? Xe x nào đó có đang trong bãi đỗ không.
+? Vị khách x có đang gửi xe trong bãi không.
+? Tra cứu lịch sử gửi xe.
+? …
+
+2.	Đối tượng sử dụng:
+-	Nhân viên quản lý bãi đỗ.
+
+3.	Cơ sở dữ liệu: 
+Tên database: “qlbaidoxe”
+ 	Nhân Viên (mã nhân viên, mật khẩu, tên nhân viên);
+ 	Khách (mã khách, cccd, tên, sđt);
+ 	Thông tin bãi (loại, số lượng);
+ 	Bãi đỗ xe (mã đỗ, loại, mã gửi);
+ 	Xe gửi (mã gửi, biển số, loại, mã khách, timein, timeout, mã nhân viên);
+ 	Hóa đơn (mã hóa đơn, mã nhân viên, mã gửi, giá tiền);
+
+Note: tên giống nhau thì liên kết. Đặt tên bảng: Không dấu, vd “NhanVien”, tên cột, vd như “makhach”, “bienso”.

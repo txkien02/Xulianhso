@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="QLBAIGUIXE.UserControlTeam1.userControlStatistical"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:QLBAIGUIXE.UserControlTeam1"
+             mc:Ignorable="d" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            TextElement.FontWeight="Regular"
+            TextOptions.TextFormattingMode="Ideal"
+            TextOptions.TextRenderingMode="Auto"
+            Background="{DynamicResource MaterialDesignPaper}"
+            FontFamily="{DynamicResource MaterialDesignFont}"
+             xmlns:converter="clr-namespace:QLBAIGUIXE.ViewModel"
+             
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:Wpf1="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" xmlns:l1="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+             MinWidth="1200" MinHeight="700">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="6.5*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="50,0,0,0" >
+            <ComboBox Margin="0, 5" Width="200" ItemsSource="{Binding FilterList}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Bộ loc" Name="Filter" Style="{StaticResource MaterialDesignFloatingHintComboBox}" HorizontalAlignment="Left" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding FilterChangeCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+        </Grid>
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Height="150"  Margin="30,0,30,10">
+                <materialDesign:Card Foreground="{x:Null}">
+                    <materialDesign:Card.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF7D27FF" Offset="1"/>
+                            <GradientStop Color="#FFBB2086"/>
+                        </LinearGradientBrush>
+                    </materialDesign:Card.Background>
+                    
+                </materialDesign:Card>
+                <StackPanel Margin="40">
+                    <TextBlock Text="Tổng doanh thu" Foreground="#DDF9F9F9" Margin="10,0,0,10" HorizontalAlignment="Left" />
+                    <TextBlock FontSize="18" Width="129" FontWeight="Bold" Text="{Binding Turnover}" Margin="10,0,0,10" Foreground="#DDF9F9F9" HorizontalAlignment="Left" />
+                </StackPanel>
+                <TextBlock Margin="40"  HorizontalAlignment="Right" Height="64.328" Width="93" VerticalAlignment="Top">
+                        <TextBlock.Background>
+                        <ImageBrush ImageSource="/Asset/money.png" Stretch="Uniform"/>
+                        </TextBlock.Background>
+                </TextBlock>
+                
+            </Grid>
+            <Grid Grid.Column="1" Height="150" Margin="30,0,30,10">
+                <materialDesign:Card  Foreground="{x:Null}">
+                    <materialDesign:Card.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFF51C40"/>
+                            <GradientStop Color="#FFD89B65" Offset="1"/>
+                        </LinearGradientBrush>
+                    </materialDesign:Card.Background>
+                </materialDesign:Card>
+                <StackPanel Margin="40">
+                    <TextBlock Text="Tổng số xe" Foreground="#DDF9F9F9" Margin="10,0,0,10" HorizontalAlignment="Left" />
+                    <TextBlock FontSize="18" Width="129" FontWeight="Bold" Text="{Binding Amount}" Margin="10,0,0,10" Foreground="#DDF9F9F9" HorizontalAlignment="Left" />
+                </StackPanel>
+                <TextBlock Margin="40"  HorizontalAlignment="Right" Height="64.328" Width="93" VerticalAlignment="Top">
+                    <TextBlock.Background>
+                        <ImageBrush ImageSource="/Asset/car.png" Stretch="UniformToFill" TileMode="None"/>
+                    </TextBlock.Background>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="2" Height="150" Margin="30,0,30,10">
+                <materialDesign:Card  Foreground="{x:Null}">
+                    <materialDesign:Card.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF016CFD" Offset="1"/>
+                            <GradientStop Color="#FF00E4FF"/>
+                        </LinearGradientBrush>
+                    </materialDesign:Card.Background>
+                </materialDesign:Card>
+                <StackPanel Margin="40">
+                    <TextBlock Text="Doanh thu trung bình hành ngày" Foreground="#DDF9F9F9" Margin="10,0,0,10" HorizontalAlignment="Left" />
+                    <TextBlock FontSize="18" Width="129" FontWeight="Bold" Text="{Binding Avg}" Margin="10,0,0,10" Foreground="#DDF9F9F9" HorizontalAlignment="Left" />
+                </StackPanel>
+                <TextBlock Margin="40"  HorizontalAlignment="Right" Height="64.328" Width="93" VerticalAlignment="Top">
+                    <TextBlock.Background>
+                        <ImageBrush ImageSource="/Asset/dollar.png" Stretch="Uniform"/>
+                    </TextBlock.Background>
+                </TextBlock>
+            </Grid>
+            
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="6*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" >
+                <lvc:PieChart Name="Chart" FontSize="16" Grid.Row="1" Series="{Binding SeriesCollection}" 
+                      LegendLocation="Bottom" Margin="0,30,0,15">
+                    <lvc:PieChart.ChartLegend>
+                        <lvc:DefaultLegend FontSize="16" BulletSize="20" VerticalAlignment="Bottom"/>
+                    </lvc:PieChart.ChartLegend>
+                    <lvc:PieChart.DataTooltip>
+                        <lvc:DefaultTooltip FontSize="16"  BulletSize="20"></lvc:DefaultTooltip>
+                    </lvc:PieChart.DataTooltip>
+                </lvc:PieChart>
+                <TextBlock FontSize="20" HorizontalAlignment="Center" Text="Biểu Đồ Số Lượng Xe Theo Tháng"  VerticalAlignment="Top"/>
+            </Grid>
+            <Grid Grid.Column="1" >
+                <lvc:CartesianChart Margin="0,30,0,15" Series="{Binding SeriesCollection1}" LegendLocation="Bottom" >
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Doanh thu" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Ngày" Labels="{Binding Labels}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+                <TextBlock FontSize="20" HorizontalAlignment="Center" Text="Biểu Đồ Doanh Thu Theo Tháng"  VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
+    

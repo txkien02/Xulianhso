@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="QLBAIGUIXE.UserControlTeam1.ParkingUC"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QLBAIGUIXE"
+        xmlns:uc="clr-namespace:QLBAIGUIXE.UserControlTeam1"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="16"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"        
+              Name="Employeeuc" >
+    <Grid >
+        <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0 10 0 0">
+            <TextBlock FontSize="30" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                TextWrapping="Wrap">
+                <Bold>Quản lý bãi gửi xe</Bold>
+            </TextBlock>
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="10 10 10 10">
+            <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" Width="700" HorizontalAlignment="Left">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Mã bãi" DisplayMemberBinding="{Binding Type}"></GridViewColumn>
+                        <GridViewColumn Header="Tên bãi gửi" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                        <GridViewColumn Header="Số lượng chỗ đỗ" DisplayMemberBinding="{Binding Count}"></GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Width="auto" Grid.RowSpan="2" Height="400" Margin="0,0,10,0">
+                <materialDesign:Card Width="250" Height="250" Margin="700,30,30,120" >
+                    <WrapPanel HorizontalAlignment="Center" Margin="0,0,10,0">
+                        <TextBox Text="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="15" Width="100" materialDesign:HintAssist.Hint="Mã bãi" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="15" Width="100" materialDesign:HintAssist.Hint="Tên bãi" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="15" Width="100" materialDesign:HintAssist.Hint="Số chỗ" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    </WrapPanel>
+
+                </materialDesign:Card>
+            </Grid>
+            <materialDesign:Card Width="250" Margin="698,0,42,78" Height="200" Grid.Row="1" Grid.RowSpan="2">
+                <WrapPanel HorizontalAlignment="Center" Width="106">
+                    <Button Command="{Binding AddCommand}" Content="Thêm" Margin="17" Width="71"></Button>
+                    <Button Command="{Binding EditCommand}" Content="Sửa" Margin="17" Width="71"></Button>
+                    <Button Command="{Binding DeleteCommand}" Content="Xóa" Margin="17" Width="71"></Button>
+                </WrapPanel>
+            </materialDesign:Card>
+
+        </Grid>
+    </Grid>
+</UserControl>
