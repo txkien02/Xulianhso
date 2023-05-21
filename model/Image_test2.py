@@ -108,8 +108,8 @@ if detected == 1:
         else:
             rotationMatrix = cv2.getRotationMatrix2D(ptPlateCenter, angle, 1.0)
 
-        roi = cv2.warpAffine(roi, rotationMatrix, (bottomy - topy, bottomx - topx))
-        imgThresh = cv2.warpAffine(imgThresh, rotationMatrix, (bottomy - topy, bottomx - topx))
+        roi = cv2.warpAffine(roi, rotationMatrix, (int(bottomy - topy), int(bottomx - topx)))
+        imgThresh = cv2.warpAffine(imgThresh, rotationMatrix, (int(bottomy - topy), int(bottomx - topx)))
         roi = cv2.resize(roi, (0, 0), fx=3, fy=3)
         imgThresh = cv2.resize(imgThresh, (0, 0), fx=3, fy=3)
 
