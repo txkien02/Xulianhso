@@ -20,7 +20,7 @@
         WindowStyle="None"
         xmlns:uc="clr-namespace:Xulianhso.UserControlTeam1"
         DataContext="{StaticResource MainVM}"
-        Title="Trang chủ" Height="900" Width="800" VerticalAlignment="Center" HorizontalAlignment="Left">
+        Title="Trang chủ" Height="700" Width="650" VerticalAlignment="Center" HorizontalAlignment="Left">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -57,14 +57,19 @@
                     <Image Source="{Binding Picture_Src,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
                 <Grid Grid.Column="1" >
-                    <ListBox Name="ListBox1" ItemsSource="{Binding List, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" >
+                    <ListBox BorderBrush="Black" BorderThickness="1" Name="ListBox1" ItemsSource="{Binding List, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction 
                                     Command="{Binding ListBox_SelectionChanged}"
-                                    CommandParameter="{Binding ElementName=ListBox1, Path=SelectedItem}"/>
+                                    />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="14"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
             </Grid>
@@ -116,7 +121,7 @@
                           IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                           Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                           ToolTip="Resource name: MaterialDesignRaisedSecondaryButton"
-                          Command="{Binding Choose}"
+                          Command="{Binding Choose}" 
                                 />
                     </Grid>
                     <Grid Grid.Row="1">
