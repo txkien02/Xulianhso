@@ -20,7 +20,7 @@
         WindowStyle="None"
         xmlns:uc="clr-namespace:Xulianhso.UserControlTeam1"
         DataContext="{StaticResource MainVM}"
-        Title="MainWindow" Height="900" Width="800" VerticalAlignment="Center" HorizontalAlignment="Left">
+        Title="Trang chủ" Height="900" Width="800" VerticalAlignment="Center" HorizontalAlignment="Left">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -102,7 +102,7 @@
                         </Grid>
                         <StackPanel Grid.Row="1" Orientation="Horizontal">
                             <TextBlock Text="Biển số:" Width="auto" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,5,0"></TextBlock>
-                            <TextBox IsReadOnly="True" FontSize="30" Text="{Binding LicensePlate}" FontWeight="Medium" FontStretch="ExtraCondensed"  HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBox>
+                            <TextBox BorderThickness="0" IsReadOnly="True" FontSize="30" Text="{Binding LicensePlate}" FontWeight="Medium" FontStretch="ExtraCondensed"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" ></TextBox>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -112,7 +112,7 @@
                         <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Button Width="auto" Content="Chọn thư mục ảnh.."
+                        <Button Background="LightSteelBlue" BorderBrush="LightSteelBlue" Width="auto" Content="Chọn thư mục ảnh.."
                           IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                           Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                           ToolTip="Resource name: MaterialDesignRaisedSecondaryButton"
@@ -120,7 +120,7 @@
                                 />
                     </Grid>
                     <Grid Grid.Row="1">
-                        <Button Width="auto" Content="Nhận diện biển số xe"
+                        <Button Background="LightSteelBlue" BorderBrush="LightSteelBlue"   Width="auto" Content="Nhận diện biển số xe"
                           IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                           Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                           ToolTip="Resource name: MaterialDesignRaisedSecondaryButton"
