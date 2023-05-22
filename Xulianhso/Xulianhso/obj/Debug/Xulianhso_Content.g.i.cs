@@ -8,6 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("asset/image/logo/logo.svg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("model/gendata.py")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("model/image_test2.py")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("model/preprocess.py")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("model/video_test2.py")]
 
 
