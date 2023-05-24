@@ -57,11 +57,12 @@
                     <Image Source="{Binding Picture_Src,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
                 <Grid Grid.Column="1" >
-                    <ListBox BorderBrush="Black" BorderThickness="1" Name="ListBox1" ItemsSource="{Binding List, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" >
+                    <ListBox BorderBrush="Black" BorderThickness="0" Name="ListBox1" ItemsSource="{Binding List, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction 
                                     Command="{Binding ListBox_SelectionChanged}"
+                                    CommandParameter="{Binding ElementName=ListBox1}"
                                     />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -121,7 +122,8 @@
                           IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                           Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                           ToolTip="Resource name: MaterialDesignRaisedSecondaryButton"
-                          Command="{Binding Choose}" 
+                          Command="{Binding Choose}"
+                          CommandParameter="{Binding ElementName=ListBox1}"
                                 />
                     </Grid>
                     <Grid Grid.Row="1">

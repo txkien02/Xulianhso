@@ -17,14 +17,15 @@ namespace Xulianhso.ViewModel
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        private BitmapSource _Picture_Src { get; set; }
-        public BitmapSource Picture_Src { get => _Picture_Src; set { _Picture_Src = value; OnPropertyChanged();}   }
-        private BitmapSource _Picture_LicensePlate { get; set; }
-        public BitmapSource Picture_LicensePlate { get => _Picture_LicensePlate; set { _Picture_LicensePlate = value; OnPropertyChanged(); } }
+        private string _Picture_Src { get; set; }
+        public string Picture_Src { get => _Picture_Src; set { _Picture_Src = value; OnPropertyChanged();}   }
+        private string _Picture_LicensePlate { get; set; }
+        public string Picture_LicensePlate { get => _Picture_LicensePlate; set { _Picture_LicensePlate = value; OnPropertyChanged(); } }
 
         private string _LicensePlate;
         public string LicensePlate { get => _LicensePlate; set { _LicensePlate = value; OnPropertyChanged(); } }
         private ObservableCollection<string> _List;
+        
         public ObservableCollection<string> List { get => _List; set { _List = value; OnPropertyChanged(); } }
 
 
@@ -44,19 +45,20 @@ namespace Xulianhso.ViewModel
 
         public MainWindowViewModel() {
             string imagePath = "./Asset/Image/img/imgroot.png"; 
-            Loadpicture(imagePath, Picture_Src);
+            Picture_Src = imagePath;
             string imagePath2 = "./Asset/Image/img/imgplate.png"; // Replace with the correct path to your image
-            Loadpicture(imagePath2, Picture_LicensePlate);
+            Picture_LicensePlate = imagePath2;
             LicensePlate = "ENG 706-1";
-            Choose = new RelayCommand<object>((p) => { return true; },(p) =>
+            
+            Choose = new RelayCommand<ListBox>((p) => { return true; },(p) =>
             {
                 ChooseFolder();
+                p.BorderThickness = new Thickness(1);
             });
             ListBox_SelectionChanged = new RelayCommand<object>((p) => { return true;}, (p) =>
             {
                 string imagePathsrc = SelectedItem; // Replace with the correct path to your image
-                Uri imageUrisrc = new Uri(imagePathsrc, UriKind.Relative);
-                Picture_Src = new BitmapImage(imageUrisrc);
+                Picture_Src = imagePathsrc;
 
             });
         }
@@ -78,11 +80,6 @@ namespace Xulianhso.ViewModel
             }
         }
 
-        public void Loadpicture(string url, BitmapSource picture)
-        {
-            string imagePathsrc = url; // Replace with the correct path to your image
-            Uri imageUri = new Uri(imagePathsrc, UriKind.Relative);
-            picture = new BitmapImage(imageUri);
-        }
+        
     }
 }
