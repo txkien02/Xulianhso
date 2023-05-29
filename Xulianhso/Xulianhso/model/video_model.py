@@ -164,12 +164,28 @@ class LicensePlateDetector:
    
         return results
     
-if __name__ == 'main' :
-    file1 = 'training_text.txt'
-    file2 = 'FlattenedImages.txt'
+    def detect(self, img):
+        results = []
+        imgGrayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        imgGrayscale = cv2.GaussianBlur(imgGrayscale, (5, 5), 0)
+        imgThresh = cv2.adaptiveThreshold(imgGrayscale, 255.0, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV,
+                                          19, 9)
+        imgThresh = cv2.bitwise_not(imgThresh)
+        imgThresh = cv2.medianBlur(imgThresh, 5)
+        imgThresh = cv2.resize(imgThresh, (0, 0), fx=3, fy=3)
+        img = cv2.resize(img, (0, 0), fx=3, fy=3)
+        kerel3 = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        thre_mor = cv2.morphologyEx(imgThresh, cv2.MORPH_DILATE, kerel3)
+        cont, hier = cv2.findContours(thre_mor, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    plate_detector = LicensePlateDetector(classification_file=file1, flattened_image_file=file2)
-    results = plate_detector.detect_license_plate('test_video.mp4')
+        for ind, cnt in enumerate(cont):
+            area = cv2.contourArea(cnt)
+            (x, y, w, h) = cv2.boundingRect(cont[ind])
+            ratio = w / h
+            if (self.Min_plate * imgThresh.shape[0] * imgThresh.shape[1] < area < self.Max_plate * imgThresh.shape[0] * imgThresh.shape[1]) and (self.Min_ratio_plate < ratio < self.Max_ratio_plate):
+                roi = img[y:y + h, x:x + w]
+                imgThreshplate = imgThresh[y:y + h, x:x + w]
+                results = self.plate_detection(roi, imgThreshplate)
+                break
 
-    for r in results:
-        print(r)
+        return results
