@@ -166,26 +166,39 @@ class LicensePlateDetector:
     
     def detect(self, img):
         results = []
+        # Convert the input image to grayscale
         imgGrayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # Apply Gaussian blur to the grayscale image
         imgGrayscale = cv2.GaussianBlur(imgGrayscale, (5, 5), 0)
+        # Apply adaptive thresholding to the blurred image
         imgThresh = cv2.adaptiveThreshold(imgGrayscale, 255.0, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV,
                                           19, 9)
+        # Invert the thresholded image
         imgThresh = cv2.bitwise_not(imgThresh)
+        # Apply median blur to the inverted image
         imgThresh = cv2.medianBlur(imgThresh, 5)
+        # Resize the thresholded image and the input image by a factor of 3
         imgThresh = cv2.resize(imgThresh, (0, 0), fx=3, fy=3)
         img = cv2.resize(img, (0, 0), fx=3, fy=3)
+        # Define a 3x3 kernel for morphological dilation
         kerel3 = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        # Apply morphological dilation to the thresholded image
         thre_mor = cv2.morphologyEx(imgThresh, cv2.MORPH_DILATE, kerel3)
+        # Find contours in the dilated image
         cont, hier = cv2.findContours(thre_mor, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+        # Loop through the contours and check if they meet the criteria for a license plate
         for ind, cnt in enumerate(cont):
             area = cv2.contourArea(cnt)
             (x, y, w, h) = cv2.boundingRect(cont[ind])
             ratio = w / h
             if (self.Min_plate * imgThresh.shape[0] * imgThresh.shape[1] < area < self.Max_plate * imgThresh.shape[0] * imgThresh.shape[1]) and (self.Min_ratio_plate < ratio < self.Max_ratio_plate):
+                # If the contour meets the criteria, extract the region of interest (ROI) and the thresholded plate image
                 roi = img[y:y + h, x:x + w]
                 imgThreshplate = imgThresh[y:y + h, x:x + w]
+                # Pass the ROI and thresholded plate image to the plate_detection method for further processing
                 results = self.plate_detection(roi, imgThreshplate)
                 break
 
+        # Return the results of the plate_detection method
         return results
