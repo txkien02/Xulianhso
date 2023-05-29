@@ -7,36 +7,49 @@ from typing import List, Tuple
 
 class LicensePlateDetector:
     def __init__(self, classification_file: str, flattened_image_file: str):
+        # Initialize constants for adaptive thresholding and character size
         self.ADAPTIVE_THRESH_BLOCK_SIZE = 19
         self.ADAPTIVE_THRESH_WEIGHT = 9
         self.Min_char = 0.01
         self.Max_char = 0.09
 
+        # Initialize constants for image resizing
         self.RESIZED_IMAGE_WIDTH = 20
         self.RESIZED_IMAGE_HEIGHT = 30
         self.n = 1
 
+        # Load the classification and flattened image files
         self.npaClassifications = np.loadtxt(classification_file, np.float32)
         self.npaFlattenedImages = np.loadtxt(flattened_image_file, np.float32)
+
+        # Reshape the classifications array
         self.npaClassifications = self.npaClassifications.reshape(
             (self.npaClassifications.size, 1))
+
+        # Create a KNearest object and train it with the flattened images and classifications
         self.kNearest = cv2.ml.KNearest_create()
         self.kNearest.train(self.npaFlattenedImages,
                              cv2.ml.ROW_SAMPLE, self.npaClassifications)
 
     def __find_plate(self, img):
+        # Initialize variables for plate detection
         detected = 0
         img = cv2.resize(img, dsize=(1920, 1080))
 
+        # Preprocess the image to grayscale and threshold it
         imgGrayscaleplate, imgThreshplate = Preprocess.preprocess(img)
+
+        # Apply Canny edge detection and dilation
         canny_image = cv2.Canny(imgThreshplate, 250, 255)
         kernel = np.ones((3, 3), np.uint8)
         dilated_image = cv2.dilate(canny_image, kernel, iterations=1)
 
+        # Find contours in the dilated image and sort them by area
         contours, hierarchy = cv2.findContours(dilated_image,
                                                 cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contours = sorted(contours, key=cv2.contourArea, reverse=True)[:10]
 
+        # Find the contour with 4 vertices, a width-to-height ratio > 0.8, and a width > 100
         screenCnt = []
         for c in contours:
             peri = cv2.arcLength(c, True)
@@ -46,9 +59,11 @@ class LicensePlateDetector:
             if (len(approx) == 4) and (ratio > 0.8) and (w > 100):
                 screenCnt.append(approx)
 
+        # If no contour is found, return an empty list
         if len(screenCnt) == 0:
             return []
 
+        # Rotate and crop the image to the detected plate
         results = []
         for screen in screenCnt:
             (x1, y1) = screen[0, 0]
@@ -74,15 +89,19 @@ class LicensePlateDetector:
             imgCropped = cv2.getRectSubPix(imgRotated, (int(
                 width/2), int(height/2)), ptCenter)
             imgCropped = cv2.resize(imgCropped, (0, 0), fx=3, fy=3)
+
+            # Apply adaptive thresholding to the cropped image
             imgThreshold = cv2.adaptiveThreshold(
                 cv2.cvtColor(imgCropped, cv2.COLOR_BGR2GRAY), 250, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, self.ADAPTIVE_THRESH_BLOCK_SIZE, self.ADAPTIVE_THRESH_WEIGHT)
 
+            # Find contours in the thresholded image and draw them on a blank image
             contours, hierarchy = cv2.findContours(imgThreshold,
                                                     cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
             imgContours = np.zeros(imgThreshold.shape, np.uint8)
             cv2.drawContours(imgContours, contours, -1, (255, 255, 255), -1)
 
+            # If contours are found, extract the character and classify it using KNearest
             if imgContours.any():
                 x, y, w, h = cv2.boundingRect(contours[0])
                 imgROI = imgContours[y:y+h, x:x+w]
@@ -101,8 +120,9 @@ class LicensePlateDetector:
         return results
 
     def detect_license_plate(self, img_path: str) -> List[Tuple[Tuple[int, int, int, int], str]]:
+        # Load the image and find the plate
         img = cv2.imread(img_path)
         results = self.__find_plate(img)
 
+        # Return the characters and their bounding boxes
         return results
-
