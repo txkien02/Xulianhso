@@ -19,13 +19,6 @@ RESIZED_IMAGE_HEIGHT = 30
 img = cv2.imread("data/image/10.jpg")
 img = cv2.resize(img, dsize=(1920, 1080))
 
-###################### If you want to try increasing the contrast #############
-# img2 = cv2.imread("1.jpg")
-# imgGrayscaleplate2, _ = Preprocess.preprocess(img)
-# imgThreshplate2 = cv2.adaptiveThreshold(imgGrayscaleplate2, 250, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, ADAPTIVE_THRESH_BLOCK_SIZE ,ADAPTIVE_THRESH_WEIGHT )
-# cv2.imshow("imgThreshplate2",imgThreshplate2)
-###############################################################
-
 ######## Upload KNN model ######################
 npaClassifications = np.loadtxt("classificationS.txt", np.float32)
 npaFlattenedImages = np.loadtxt("flattened_images.txt", np.float32)
