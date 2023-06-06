@@ -9,7 +9,6 @@ import util
 # Định nghĩa các hằng số
 model_cfg_path = os.path.join('.', 'model', 'cfg', 'darknet-yolov3.cfg')
 model_weights_path = os.path.join('.', 'model', 'weights', 'model.weights')
-class_names_path = os.path.join('.', 'model', 'class', 'class.names')
 
 input_dir = sys.argv[1]
 
@@ -20,9 +19,6 @@ for img_name in os.listdir(input_dir):
 
     img_path = os.path.join(input_dir, img_name)
 
-    # Đọc tên lớp
-    with open(class_names_path, 'r') as f:
-        class_names = [j[:-1] for j in f.readlines() if len(j) > 2]
 
     # Tải mô hình
     net = cv2.dnn.readNetFromDarknet(model_cfg_path, model_weights_path)
