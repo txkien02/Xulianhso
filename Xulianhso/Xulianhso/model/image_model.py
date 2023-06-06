@@ -3,6 +3,10 @@ import math
 import sys
 import cv2
 import numpy as np
+from PIL import Image
+import os
+
+
 
 import Preprocess
 
@@ -121,7 +125,8 @@ if detected == 1:
         thre_mor = cv2.morphologyEx(imgThresh, cv2.MORPH_DILATE, kerel3)
         cont, hier = cv2.findContours(thre_mor, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        cv2.imshow(str(n + 20), thre_mor)
+        # cv2.imshow(str(n + 20), thre_mor)
+        
         cv2.drawContours(roi, cont, -1, (100, 255, 255), 2)  # Vẽ contour các kí tự trong biển số
 
         ##################### Filter out characters #################
@@ -174,12 +179,15 @@ if detected == 1:
 
         print("\n License Plate " + str(n) + " is: " + first_line + " - " + second_line + "\n")
         roi = cv2.resize(roi, None, fx=0.75, fy=0.75)
-        cv2.imshow(str(n), cv2.cvtColor(roi, cv2.COLOR_BGR2RGB))
-
+        
+        #cv2.imshow(str(n), cv2.cvtColor(roi, cv2.COLOR_BGR2RGB))
+        os.remove("testimage.png")
+        cv2.imwrite("testimage.png", roi)
         # cv2.putText(img, first_line + "-" + second_line ,(topy ,topx),cv2.FONT_HERSHEY_DUPLEX, 2, (0, 255, 255), 2)
         n = n + 1
 
 img = cv2.resize(img, None, fx=0.5, fy=0.5)
-cv2.imshow('License plate', img)
+# cv2.imshow('License plate', img)
 
 cv2.waitKey(0)
+

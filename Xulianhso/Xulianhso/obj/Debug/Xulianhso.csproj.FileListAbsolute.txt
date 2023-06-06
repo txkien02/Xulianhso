@@ -66,3 +66,4 @@ C:\Users\DELL\News-Text-Classification-MultiClass-Vietnamese-and-English-using-C
 C:\Users\DELL\News-Text-Classification-MultiClass-Vietnamese-and-English-using-CNN-LSTM\Xulianhso\Xulianhso\Xulianhso\obj\Debug\Xulianhso.csproj.CopyComplete
 C:\Users\DELL\News-Text-Classification-MultiClass-Vietnamese-and-English-using-CNN-LSTM\Xulianhso\Xulianhso\Xulianhso\obj\Debug\Xulianhso.exe
 C:\Users\DELL\News-Text-Classification-MultiClass-Vietnamese-and-English-using-CNN-LSTM\Xulianhso\Xulianhso\Xulianhso\obj\Debug\Xulianhso.pdb
+D:\Github\Xulianhso\Xulianhso\Xulianhso\obj\Debug\Xulianhso_Content.g.cs

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,25 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-
-
-
+using Emgu.CV;
+using Emgu.CV.OCR;
+using Emgu.CV.Structure;
+using Tesseract;
+using Emgu.CV.ML;
+using Emgu.CV.ML.Structure;
+using Emgu.CV.UI;
+using Emgu.Util;
+using Emgu.CV.CvEnum;
+using LaptrinhVBLibs;
+using tesseract;
 
 namespace Xulianhso.ViewModel
 {
+
     public class MainWindowViewModel : BaseViewModel
     {
+
+        
         private string _Picture_Src { get; set; }
         public string Picture_Src { get => _Picture_Src; set { _Picture_Src = value; OnPropertyChanged();}   }
         private string _Picture_LicensePlate { get; set; }
@@ -27,6 +39,9 @@ namespace Xulianhso.ViewModel
         private ObservableCollection<string> _List;
         
         public ObservableCollection<string> List { get => _List; set { _List = value; OnPropertyChanged(); } }
+
+        private TesseractProcessor num_tesseract;
+
 
 
         public ICommand Choose { get; set; }
@@ -49,7 +64,9 @@ namespace Xulianhso.ViewModel
             string imagePath2 = "./Asset/Image/img/imgplate.png"; // Replace with the correct path to your image
             Picture_LicensePlate = imagePath2;
             LicensePlate = "ENG 706-1";
-            
+            num_tesseract = new TesseractProcessor("./tessdata", "eng", EngineMode.Default);
+
+
             Choose = new RelayCommand<ListBox>((p) => { return true; },(p) =>
             {
                 ChooseFolder();
@@ -59,6 +76,28 @@ namespace Xulianhso.ViewModel
             {
                 string imagePathsrc = SelectedItem; // Replace with the correct path to your image
                 Picture_Src = imagePathsrc;
+
+
+                Image<Bgr, byte> srcImage = new Image<Bgr, byte>(imagePathsrc);
+                Bitmap grayframe;
+                Bitmap color;
+                List<Rectangle> listRect;
+                int c = clsBSoft.IdentifyContours(srcImage.ToBitmap(), 50, false, out grayframe, out color, out listRect);
+                string recognizedPlate = string.Empty;
+
+                if (listRect != null && listRect.Count > 0)
+                {
+                    Bitmap plateImage = grayframe.Clone(listRect[0], grayframe.PixelFormat);
+                    string recognizedText = clsBSoft.Ocr(plateImage, false, full_tesseract, num_tesseract, ch_tesseract, true);
+                    recognizedPlate = recognizedText.Trim();
+                }
+
+                LicensePlate = recognizedPlate;
+
+                // Cập nhật hình ảnh và thông tin biển số xe
+                Picture_Src = imagePathsrc;
+                Picture_LicensePlate = "./Asset/Image/img/imgplate.png";
+
 
             });
         }
@@ -80,6 +119,6 @@ namespace Xulianhso.ViewModel
             }
         }
 
-        
+
     }
 }
