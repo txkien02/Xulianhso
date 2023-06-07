@@ -7,8 +7,8 @@ import sys
 import util
 
 # Định nghĩa các hằng số
-model_cfg_path = os.path.join('.', 'model', 'cfg', 'darknet-yolov3.cfg')
-model_weights_path = os.path.join('.', 'model', 'weights', 'model.weights')
+model_cfg_path = os.path.join('.', 'model', 'cfg', 'darknet-yolov3.cfg') # Đường dẫn đến file cấu hình của mô hình YOLOv3
+model_weights_path = os.path.join('.', 'model', 'weights', 'model.weights') # Đường dẫn đến file trọng số của mô hình YOLOv3
 
 input_dir = sys.argv[1]  # Lấy đường dẫn thư mục đầu vào từ tham số dòng lệnh
 
