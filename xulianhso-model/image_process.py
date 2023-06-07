@@ -30,6 +30,7 @@ for img_name in os.listdir(input_dir):
     blob = cv2.dnn.blobFromImage(img, 1 / 255, (416, 416), (0, 0, 0), True)
 
     # Nhận dạng đối tượng trong ảnh bằng cách đưa blob vào mạng neural
+    net.setInput(blob)
     detections = util.get_outputs(net)
 
     # Lưu trữ thông tin về bounding box, class ID và score của các đối tượng được nhận dạng
