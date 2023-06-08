@@ -14,12 +14,12 @@ ALPHA_DICT = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8:
               25: '4', 26: '5', 27: '6', 28: '7', 29: '8', 30: '9', 31: "Background"}
 
 LP_DETECTION_CFG = {
-    "weight_path": "./src/weights/yolov3-tiny_15000.weights",
-    "classes_path": "./src/lp_detection/cfg/yolo.names",
-    "config_path": "./src/lp_detection/cfg/yolov3-tiny.cfg"
+    "weight_path": "./model/weights/yolov3-tiny_15000.weights",
+    "classes_path": "./model/lp_detection/cfg/yolo.names",
+    "config_path": "./model/lp_detection/cfg/yolov3-tiny.cfg"
 }
 
-CHAR_CLASSIFICATION_WEIGHTS = './src/weights/weight.h5'
+CHAR_CLASSIFICATION_WEIGHTS = './model/weights/weight.h5'
 
 class E2E(object):
     def __init__(self):
